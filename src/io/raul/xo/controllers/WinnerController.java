@@ -27,9 +27,9 @@ public class WinnerController {
             }
 
             if(check(field, new Point(0, 2), point -> new Point(point.x + 1, point.y - 1))){
-                return field.getFigure(new Point(0, 0));
+                return field.getFigure(new Point(0, 2));
             }
-        } catch (InvalidPointException e) {
+        } catch (final InvalidPointException e) {
             e.printStackTrace();
         }
         return null;
@@ -41,13 +41,14 @@ public class WinnerController {
         final Point nexPoint = pointGenerator.next(currentPoint);
         try {
             currentFigure = field.getFigure(currentPoint);
+
+            if(currentFigure == null){
+                return false;
+            }
+
             nextFigure = field.getFigure(nexPoint);
         } catch (InvalidPointException e) {
             return true;
-        }
-
-        if(currentFigure == null){
-            return false;
         }
 
         if(currentFigure != nextFigure){
