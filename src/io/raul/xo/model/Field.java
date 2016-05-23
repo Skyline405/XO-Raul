@@ -1,21 +1,24 @@
 package io.raul.xo.model;
 
-import io.raul.xo.model.exceptions.AlreadyOccupiedException;
 import io.raul.xo.model.exceptions.InvalidPointException;
 
 import java.awt.*;
 
 public class Field {
 
-    private final int SIZE = 3;
+    private static final int MIN_COORD = 0;
 
-    private final int MIN_COORD = 0;
-    private final int MAX_COORD = SIZE;
+    private final Figure[][] field;
 
-    private final Figure[][] field = new Figure[SIZE][SIZE];
+    private final int fieldSize;
+
+    public Field(final int fieldSize) {
+        this.field = new Figure[fieldSize][fieldSize];
+        this.fieldSize = fieldSize;
+    }
 
     public int getSize() {
-        return SIZE;
+        return fieldSize;
     }
 
     public Figure getFigure(final Point point) throws InvalidPointException {
@@ -33,10 +36,10 @@ public class Field {
     }
 
     private boolean checkPoint(final Point point){
-        return checkCoord(point.x) && checkCoord(point.y);
+        return checkCoord(point.x, field.length) && checkCoord(point.y, field[point.x].length);
     }
 
-    private boolean checkCoord(final int coord){
-        return coord >= MIN_COORD && coord < MAX_COORD;
+    private boolean checkCoord(final int coord, final int maxCoord){
+        return coord >= MIN_COORD && coord < maxCoord;
     }
 }
